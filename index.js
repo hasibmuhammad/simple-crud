@@ -28,14 +28,32 @@ const run = async () => {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
+
+    // Database > Collection > Data
+    // Setting the database name: usersDB, setting the userCollection name: users
+    const database = client.db("usersDB");
+    const userCollection = database.collection("users");
+
+    // setting a post api
+    app.post("/user", async (req, res) => {
+      const user = await req.body;
+
+      console.log("Getting Data: ", user);
+
+      // Once we get the data - we will call the insertOne function from userCollection and pass the data
+      const result = await userCollection.insertOne(user);
+
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 };
 run().catch(console.dir);
