@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 
@@ -52,6 +52,17 @@ const run = async () => {
 
       // Once we get the data - we will call the insertOne function from userCollection and pass the data
       const result = await userCollection.insertOne(user);
+
+      res.send(result);
+    });
+
+    // Delete
+    app.delete("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("from api", id);
+
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
 
       res.send(result);
     });

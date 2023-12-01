@@ -9,7 +9,7 @@ function App() {
     const email = form.email.value;
     const user = { name, email };
 
-    fetch("http://localhost:5000/user", {
+    fetch("http://localhost:3000/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
