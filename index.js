@@ -12,8 +12,7 @@ const port = process.env.PORT || 5000;
 // hasibmu99
 // j8sVQAdPu7dGmXHr
 
-const uri =
-  "mongodb+srv://hasibmu99:j8sVQAdPu7dGmXHr@cluster0.er9gvke.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -37,8 +36,16 @@ const run = async () => {
 
     // Database > Collection > Data
     // Setting the database name: usersDB, setting the userCollection name: users
-    const database = client.db("usersDB");
-    const userCollection = database.collection("users");
+
+    const userCollection = client.db("usersDB").collection("users");
+
+    // Get all available users from mongodb database
+    app.get("/users", async (req, res) => {
+      // get all the data from the user collection and convert it to an array
+      const result = await userCollection.find().toArray();
+
+      res.send(result);
+    });
 
     // setting a post api
     app.post("/user", async (req, res) => {
