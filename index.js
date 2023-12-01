@@ -9,9 +9,6 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
-// hasibmu99
-// j8sVQAdPu7dGmXHr
-
 const uri = process.env.MONGO_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
