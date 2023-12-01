@@ -66,6 +66,40 @@ const run = async () => {
 
       res.send(result);
     });
+
+    // get single user - by id
+    app.get("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.findOne(query);
+
+      res.send(result);
+    });
+
+    // update
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const user = await req.body;
+
+      //setting filter and options for updating the data
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+
+      const updatedUser = {
+        $set: {
+          name: user.name,
+          email: user.email,
+        },
+      };
+
+      const result = await userCollection.updateOne(
+        filter,
+        updatedUser,
+        options
+      );
+
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
