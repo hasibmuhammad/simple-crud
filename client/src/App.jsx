@@ -17,7 +17,12 @@ function App() {
       body: JSON.stringify(user),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.insertedId) {
+          alert("Successfully created the user!");
+          form.reset();
+        }
+      });
   };
 
   return (
